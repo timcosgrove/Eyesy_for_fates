@@ -1,6 +1,6 @@
 var appBaseURL = 'http://' + location.host
 var fsurl = appBaseURL + '/fmdata'
-var workingDir = '/sdcard/';
+var workingDir = '/';
 var baseDirLabel = 'Home';
 var clipboard = {};
 
@@ -32,8 +32,10 @@ function refreshWorkingDir(){
         // if that was an attempt to load non existent sdcard folder set base back to usbdrive
         if (workingDir == '/sdcard/') {
             alertDialog('SD Card storage not available on this Organelle.');
-            workingDir = '/usbdrive/';
-            baseDirLabel = 'USB Drive';
+            // workingDir = '/usbdrive/';
+            // baseDirLabel = 'USB Drive';
+            workingDir = '';
+            baseDirLabel = 'Eyesy';
         }
         else {
             alertDialog('Error loading file or folder.');
@@ -117,16 +119,20 @@ function renderBreadcrumb () {
     $("#fsbreadcrumb").empty();
     var absPath = '';
     // NOTE hack for removing base dir and replacing with SD CARD or USB DRIVE for Organelle
-    //var breadelement = $('<li class="fsdir"><a href="#">'+baseDirLabel+'</a></li>');
-    //breadelement.data("path", absPath);
-   // $("#fsbreadcrumb").append(breadelement);
+    var breadelement = $('<li class="fsdir">' + baseDirLabel + '/</li>');
+    breadelement.data("path", absPath);
+    $("#fsbreadcrumb").append(breadelement);
+    
     var path = workingDir.split('/');
     var count = 0;
     path.forEach(function(p) {
         if (p) {
             absPath +=  p + '/';
-            if (count == 0) var breadelement = $('<li class="fsdir">' + baseDirLabel + '/</li>');
-            else var breadelement = $('<li class="fsdir">' + p + '/</li>');
+            if (count == 0) {
+            	var breadelement = $('<li class="fsdir">' + p + '/</li>');
+            } else { 
+            	var breadelement = $('<li class="fsdir">' + p + '/</li>');
+            }
             count++;
             breadelement.data("path", absPath);
             $("#fsbreadcrumb").append(breadelement);
@@ -163,7 +169,7 @@ function hideModal(){
 }
 
 function alertDialog(msg){
-    newModal('Atención');
+    newModal('Attention');
     addModalBody('<p>'+msg+'</p>');
     addModalButton('Cancel', hideModal);
     showModal();

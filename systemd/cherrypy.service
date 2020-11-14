@@ -1,0 +1,12 @@
+[Unit] 
+Description=Cherrypy Web Server
+
+[Service] 
+Type=simple 
+WorkingDirectory=/home/we/sidekick/patches/Eyesy/web
+ExecStart=/home/we/sidekick/patches/Eyesy/web/run.sh
+User=we
+Group=we
+
+[Install] 
+WantedBy=multi-user.target

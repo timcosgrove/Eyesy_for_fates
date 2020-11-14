@@ -29,9 +29,9 @@ current_dir = os.path.dirname(os.path.abspath(__file__))
 file_operations = imp.load_source('file_operations', current_dir + '/file_operations.py')
 
 
-GRABS_PATH = "/sdcard/Grabs/"
-MODES_PATH = "/"
-USER_DIR = "/sdcard/"
+GRABS_PATH = "/home/we/sidekick/patches/Eyesy/presets/Grabs/"
+MODES_PATH = "/home/we/sidekick/patches/Eyesy/presets/Modes/"
+USER_DIR = "/home/we/sidekick/patches/Eyesy/"
 
 try:
 	osc_target = liblo.Address(4000)
@@ -47,7 +47,7 @@ class Root():
 
     # loads a file
     def get_file(self, fpath):
-        mode_path = MODES_PATH+fpath
+        mode_path = USER_DIR+fpath
         mode = open(mode_path, 'r').read()
         #liblo.send(osc_target, "/set", p)
         return mode
@@ -63,14 +63,14 @@ class Root():
             if not l.strip().startswith("#psk"):
                 out += l + "\n"
         
-        f = open(USER_DIR + "/System/wpa_supplicant.conf", "w")
+        f = open(USER_DIR + "/system/wpa_supplicant.conf", "w")
         f.write(out)
         f.close()
         return '{"ok":"ok"}'
     wifi_save_net.exposed = True
 
     def wifi_get_net(self) :
-        f = open(USER_DIR + "/System/wpa_supplicant.conf", "r")
+        f = open(USER_DIR + "/system/wpa_supplicant.conf", "r")
         lines = f.read().splitlines()
         ssid = ""
         for l in lines :
@@ -85,7 +85,7 @@ class Root():
 
     def wifi_save_ap(self, name, pw):
         # check for wifi file, create one if not found
-        ap_file = USER_DIR + "/System/ap.txt"
+        ap_file = USER_DIR + "/system/ap.txt"
         if os.path.exists(ap_file):
             f = open(ap_file, "r")
         else :
@@ -156,7 +156,7 @@ class Root():
  
     def save(self, fpath, contents):
         p = fpath
-        mode_path = MODES_PATH+p
+        mode_path = USER_DIR+p
         with open(mode_path, "w") as text_file:
             text_file.write(contents)
         print contents

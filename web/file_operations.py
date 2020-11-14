@@ -3,7 +3,7 @@ import os
 import shutil
 import cherrypy
 
-BASE_DIR = "/"
+BASE_DIR = "/home/we/sidekick/patches/Eyesy/"
 
 #TODO check all the paths here 
 def check_path(path) :
